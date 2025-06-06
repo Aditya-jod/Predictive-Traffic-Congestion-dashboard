@@ -5,14 +5,15 @@ import numpy as np
 import os
 import folium
 from streamlit_folium import st_folium
+from pyproj import Transformer
 
 # Set up Streamlit page configuration
 st.set_page_config(page_title="Traffic Congestion Prediction Dashboard", layout="wide")
 
 # --- Paths to model and data files ---
 model_path = r"D:\Data Science Advance Projects\Predictive Traffic Congestion Modeling and Optimization for Smart City Mobility\traffic-dashboard\xgb_classifier.pkl"
-data_path = r"D:\Data Science Advance Projects\Predictive Traffic Congestion Modeling and Optimization for Smart City Mobility\traffic-dashboard\final_features.csv"
-TAXI_ZONE_CENTROIDS_PATH = r"D:\Data Science Advance Projects\Predictive Traffic Congestion Modeling and Optimization for Smart City Mobility\traffic-dashboard\taxi_zone_centroids.csv"
+data_path = r"D:\Data Science Advance Projects\Predictive Traffic Congestion Modeling and Optimization for Smart City Mobility\traffic-dashboard\Sample data for dashboard\sample_data.csv"
+TAXI_ZONE_CENTROIDS_PATH = r"D:\Data Science Advance Projects\Predictive Traffic Congestion Modeling and Optimization for Smart City Mobility\traffic-dashboard\taxi_zone_centroids_latlon.csv"
 
 # --- Configuration for Map ---
 PICKUP_LAT_COL_NAME_IN_DF = 'pickup_centroid_lat'
@@ -32,7 +33,7 @@ def load_model(path):
         return None
 
 @st.cache_data
-def load_data(path, name="Data", nrows=10000):
+def load_data(path, name="Data", nrows=25000):
     # Load a CSV file as a DataFrame, with error handling
     try:
         df_loaded = pd.read_csv(path, low_memory=False, nrows=nrows)
@@ -48,7 +49,6 @@ def load_data(path, name="Data", nrows=10000):
 df_trips = load_data(data_path, name="Trip Features Data")
 if df_trips.empty:
     st.error("Main trip data could not be loaded. Dashboard cannot proceed.")
-    st.stop()
 else:
     st.success("Successfully loaded Trip Features Data.")
 
@@ -82,11 +82,11 @@ df_trips.loc[:, numeric_cols_in_trips] = df_trips[numeric_cols_in_trips].fillna(
 # --- 3. Load and Merge Taxi Zone Centroids Data ---
 zone_centroids_df = load_data(TAXI_ZONE_CENTROIDS_PATH, name="Taxi Zone Centroids", nrows=None)
 df = df_trips.copy()
-
+      
 if not zone_centroids_df.empty:
     ORIGINAL_CENTROID_ID_COL = 'LocationID'
-    ORIGINAL_CENTROID_LAT_COL = 'lat'
-    ORIGINAL_CENTROID_LON_COL = 'lon'
+    ORIGINAL_CENTROID_LAT_COL = 'latitude'
+    ORIGINAL_CENTROID_LON_COL = 'longitude'
     
     # Check if required columns exist in centroids data
     if all(col in zone_centroids_df.columns for col in [ORIGINAL_CENTROID_ID_COL, ORIGINAL_CENTROID_LAT_COL, ORIGINAL_CENTROID_LON_COL]):
@@ -183,6 +183,9 @@ with col1:
 
 with col2:
     st.subheader("Pickup Location Map")
+    # Show a preview of the coordinates being plotted
+    st.write("Sample of pickup coordinates being plotted:")
+    st.write(filtered_df[[PICKUP_LAT_COL_NAME_IN_DF, PICKUP_LON_COL_NAME_IN_DF]].head(10))
     # Display pickup locations on a Folium map
     if not filtered_df.empty and PICKUP_LAT_COL_NAME_IN_DF in filtered_df.columns and PICKUP_LON_COL_NAME_IN_DF in filtered_df.columns:
         map_data_for_plot = filtered_df[[PICKUP_LAT_COL_NAME_IN_DF, PICKUP_LON_COL_NAME_IN_DF]].copy()
@@ -195,16 +198,17 @@ with col2:
 
             if not map_data_for_plot.empty:
                 st.info(f"Displaying {min(len(map_data_for_plot), 5000)} pickup locations on the map.")
-                nyc_map = folium.Map(location=[40.7128, -73.935242], zoom_start=11)
+                nyc_map = folium.Map(location=[40.7128, -73.935242], zoom_start=11, tiles="CartoDB positron")
                 for idx, row in map_data_for_plot.head(5000).iterrows():
                     folium.CircleMarker(location=[row['lat'], row['lon']], radius=2, color='blue', fill=True, fill_color='blue', fill_opacity=0.6).add_to(nyc_map)
-                st_folium(nyc_map, width=725, height=450)
+                st_folium(nyc_map, width=725, height=350)
 
                 with st.expander("Show Map Data Debugging Info"):
                     st.write("**Descriptive statistics for map coordinates (`lat`, `lon`):**")
                     st.dataframe(map_data_for_plot[['lat', 'lon']].describe())
 
-# --- Prediction Section (FIXED and RESTORED) ---
+# --- Prediction Section ---
+st.markdown("---")  # This adds a thin horizontal line
 st.header("Predict Congestion on Selected Trips")
 if not filtered_df.empty:
     # Allow user to select rows for prediction

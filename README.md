@@ -44,7 +44,9 @@ pip install -r requirements.txt
 
 ### 3. **Prepare Data**
 
-- Place your cleaned taxi trip data (e.g., `final_features.csv`) in the `Outputs` folder.
+- Place a sampled dataset (e.g., `sample_data.csv`) in the project root or appropriate path as referenced in `dashboard.py`.
+    - This should contain engineered features used for prediction.
+    - If using full data (`final_features.csv`), ensure it's under hosting size limits (e.g., <100 MB for Streamlit Cloud).
 - Place your trained model file (e.g., `xgb_classifier.pkl`) in the `Outputs` folder.
 - Place `taxi_zone_centroids.csv` (with columns: `LocationID, zone, borough, lat, lon`) in the `Dataset/nyc_taxi_zone_mapping` folder.
     - If you only have the official shapefile, run the provided centroid extraction script to generate this CSV.
@@ -64,17 +66,35 @@ The dashboard will open in your browser.
 ```
 traffic-dashboard/
 │
-├── dashboard.py                # Main Streamlit dashboard app
-├── requirements.txt            # Python dependencies
-├── Outputs/
-│   ├── final_features.csv      # Cleaned taxi trip data
-│   └── xgb_classifier.pkl      # Trained ML model
-├── Dataset/
-│   └── nyc_taxi_zone_mapping/
-│       ├── taxi_zone_centroids.csv   # Taxi zone centroids (lat/lon)
-│       └── taxi_zones.shp           # (Optional) Official shapefile
-└── README.md
+├── dashboard.py             # Main Streamlit dashboard app
+├── sample_data.csv          # Sampled taxi trip data (~25,000 rows)
+├── taxi_zone_centroids.csv  # NYC taxi zone centroid data
+├── xgb_classifier.pkl       # Trained ML model (XGBoost)
+├── requirements.txt         # Python dependencies
+└── README.md                # Project documentation
+
 ```
+
+---
+
+## 🌐 Deployment (Streamlit Cloud)
+
+To deploy the dashboard on [Streamlit Cloud](https://streamlit.io/cloud):
+
+1. **Push your repo** to GitHub, making sure it includes:
+   - `dashboard.py`
+   - `sample_data.csv`
+   - `taxi_zone_centroids.csv`
+   - `xgb_classifier.pkl`
+   - `requirements.txt`
+
+2. **Go to** [https://share.streamlit.io](https://share.streamlit.io) and log in with your GitHub account.
+
+3. **Select your repository** and choose `dashboard.py` as the entry point.
+
+4. Click **Deploy**. Streamlit will automatically install dependencies and launch the app.
+
+> ⚠️ Make sure all files are under 100 MB. Avoid using large datasets like `final_features.csv` — use `sample_data.csv` (25,000 rows) instead for better performance and compatibility with free hosting limits.
 
 ---
 
@@ -112,13 +132,6 @@ See [`requirements.txt`](requirements.txt) for all dependencies.
 
 ## 📄 License
 
-MIT License (or your preferred license).
+This project is licensed under the [MIT License](LICENSE).
 
 ---
-
-## 🙋‍♂️ Contact
-
-For questions or contributions, please open an issue or contact Aditya Jod (aditya1710j@gmail.com).
-
----
-

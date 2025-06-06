@@ -16,8 +16,8 @@ st.set_page_config(page_title="Traffic Congestion Prediction Dashboard", layout=
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # Use os.path.join to build robust, relative paths
-model_path = os.path.join(BASE_DIR, "Convert plk to json", "convert_xgb_classifier_model.json")
-data_path = os.path.join(BASE_DIR, "Sample data for dashboard", "sample_data.csv")
+model_path = os.path.join(BASE_DIR, "convert_xgb_classifier_model.json")
+data_path = os.path.join(BASE_DIR, "sample_data.csv")
 TAXI_ZONE_CENTROIDS_PATH = os.path.join(BASE_DIR, "taxi_zone_centroids_latlon.csv")
 
 # --- Configuration for Map ---

@@ -6,14 +6,19 @@ import os
 import folium
 from streamlit_folium import st_folium
 from pyproj import Transformer
+import xgboost as xgb
 
 # Set up Streamlit page configuration
 st.set_page_config(page_title="Traffic Congestion Prediction Dashboard", layout="wide")
 
 # --- Paths to model and data files ---
-model_path = r"D:\Data Science Advance Projects\Predictive Traffic Congestion Modeling and Optimization for Smart City Mobility\traffic-dashboard\xgb_classifier.pkl"
-data_path = r"D:\Data Science Advance Projects\Predictive Traffic Congestion Modeling and Optimization for Smart City Mobility\traffic-dashboard\Sample data for dashboard\sample_data.csv"
-TAXI_ZONE_CENTROIDS_PATH = r"D:\Data Science Advance Projects\Predictive Traffic Congestion Modeling and Optimization for Smart City Mobility\traffic-dashboard\taxi_zone_centroids_latlon.csv"
+# Get the absolute path to the directory where this script is located
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# Use os.path.join to build robust, relative paths
+model_path = os.path.join(BASE_DIR, "Convert plk to json", "convert_xgb_classifier_model.json")
+data_path = os.path.join(BASE_DIR, "Sample data for dashboard", "sample_data.csv")
+TAXI_ZONE_CENTROIDS_PATH = os.path.join(BASE_DIR, "taxi_zone_centroids_latlon.csv")
 
 # --- Configuration for Map ---
 PICKUP_LAT_COL_NAME_IN_DF = 'pickup_centroid_lat'
@@ -22,9 +27,10 @@ PICKUP_LON_COL_NAME_IN_DF = 'pickup_centroid_lon'
 # --- Function Definitions ---
 @st.cache_resource
 def load_model(path):
-    # Load a trained ML model from disk
     try:
-        return joblib.load(path)
+        model = xgb.XGBRegressor()
+        model.load_model(path)
+        return model
     except FileNotFoundError:
         st.error(f"Model file not found at {path}.")
         return None

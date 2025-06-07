@@ -39,7 +39,7 @@ def load_model(path):
         return None
 
 @st.cache_data
-def load_data(path, name="Data", nrows=25000):
+def load_data(path, name="Data", nrows=10000):
     # Load a CSV file as a DataFrame, with error handling
     try:
         df_loaded = pd.read_csv(path, low_memory=False, nrows=nrows)

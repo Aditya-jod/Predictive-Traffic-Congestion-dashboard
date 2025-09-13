@@ -66,10 +66,11 @@ The dashboard will open in your browser.
 ```
 traffic-dashboard/
 │
-├── dashboard.py             # Main Streamlit dashboard app
-├── sample_data.csv          # Sampled taxi trip data (~25,000 rows)
-├── taxi_zone_centroids.csv  # NYC taxi zone centroid data
-├── xgb_classifier.pkl       # Trained ML model (XGBoost)
+├── dashboard.py            # Main Streamlit dashboard app
+├── data
+    ├── sample_data.csv          # Sampled taxi trip data (~25,000 rows)
+    ├── taxi_zone_centroids.csv  # NYC taxi zone centroid data
+    ├── xgb_classifier.pkl       # Trained ML model (XGBoost)          
 ├── requirements.txt         # Python dependencies
 └── README.md                # Project documentation
 
@@ -135,3 +136,4 @@ See [`requirements.txt`](requirements.txt) for all dependencies.
 This project is licensed under the [MIT License](LICENSE).
 
 ---
+

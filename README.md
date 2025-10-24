@@ -62,16 +62,17 @@ The dashboard will open in your browser.
 ---
 
 ## Project Structure
-
 ```
 traffic-dashboard/
 │
 ├── dashboard.py             # Main Streamlit dashboard app
-├── sample_data.csv          # Sampled taxi trip data (~25,000 rows)
-├── taxi_zone_centroids.csv  # NYC taxi zone centroid data
-├── xgb_classifier.pkl       # Trained ML model (XGBoost)
 ├── requirements.txt         # Python dependencies
-└── README.md                # Project documentation
+├── README.md                # Project documentation
+└── data/                    # Data and model files
+    ├── sample_data.csv          # Sampled taxi trip data (~25,000 rows)
+    ├── taxi_zone_centroids.csv  # NYC taxi zone centroid data (LocationID, zone, borough, lat, lon)
+    └── xgb_classifier.pkl       # Trained ML model (XGBoost)
+```
 
 ```
 

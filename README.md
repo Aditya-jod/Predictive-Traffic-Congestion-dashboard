@@ -1,11 +1,11 @@
-# 🚦 Traffic Congestion Prediction Dashboard
+# Traffic Congestion Prediction Dashboard
 
 A Streamlit dashboard for **Predictive Traffic Congestion Modeling and Optimization for Smart City Mobility** in New York City.  
 This dashboard visualizes traffic congestion predictions, enables interactive exploration of traffic patterns, and demonstrates the power of machine learning for urban mobility.
 
 ---
 
-## 📋 Features
+## Features
 
 - **Interactive Map:** Visualize taxi pickup locations by NYC taxi zone centroids.
 - **Congestion Analytics:** Explore congestion trends by hour and by pickup zone.
@@ -16,7 +16,7 @@ This dashboard visualizes traffic congestion predictions, enables interactive ex
 
 ---
 
-## 📂 Data Used
+## Data Used
 
 - **NYC Taxi Trip Data:** Cleaned CSV with engineered features.
 - **NYC Taxi Zone Centroids:** CSV with latitude/longitude for each taxi zone (generated from official shapefile).
@@ -25,7 +25,7 @@ This dashboard visualizes traffic congestion predictions, enables interactive ex
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### 1. **Clone the Repository**
 
@@ -61,16 +61,15 @@ The dashboard will open in your browser.
 
 ---
 
-## 🛠️ Project Structure
+## Project Structure
 
 ```
 traffic-dashboard/
 │
-├── dashboard.py            # Main Streamlit dashboard app
-├── data
-    ├── sample_data.csv          # Sampled taxi trip data (~25,000 rows)
-    ├── taxi_zone_centroids.csv  # NYC taxi zone centroid data
-    ├── xgb_classifier.pkl       # Trained ML model (XGBoost)          
+├── dashboard.py             # Main Streamlit dashboard app
+├── sample_data.csv          # Sampled taxi trip data (~25,000 rows)
+├── taxi_zone_centroids.csv  # NYC taxi zone centroid data
+├── xgb_classifier.pkl       # Trained ML model (XGBoost)
 ├── requirements.txt         # Python dependencies
 └── README.md                # Project documentation
 
@@ -78,7 +77,7 @@ traffic-dashboard/
 
 ---
 
-## 🌐 Deployment (Streamlit Cloud)
+## Deployment (Streamlit Cloud)
 
 To deploy the dashboard on [Streamlit Cloud](https://streamlit.io/cloud):
 
@@ -99,7 +98,7 @@ To deploy the dashboard on [Streamlit Cloud](https://streamlit.io/cloud):
 
 ---
 
-## ⚡ How It Works
+## How It Works
 
 - **Data Loading:** Loads trip data and merges with taxi zone centroids for mapping.
 - **Filtering:** Sidebar controls let you filter by hour, zone, and distance.
@@ -109,14 +108,14 @@ To deploy the dashboard on [Streamlit Cloud](https://streamlit.io/cloud):
 
 ---
 
-## 🧠 Model Training (Optional)
+## Model Training (Optional)
 
 Model training is done separately (not in this dashboard).  
 You can use any scikit-learn compatible model (e.g., XGBoost, RandomForest) trained on your engineered features.
 
 ---
 
-## 📝 Notes & Best Practices
+## Notes & Best Practices
 
 - Ensure all data files are in the correct paths as set in `dashboard.py`.
 - The dashboard is optimized for performance using Streamlit caching.
@@ -125,15 +124,14 @@ You can use any scikit-learn compatible model (e.g., XGBoost, RandomForest) trai
 
 ---
 
-## 📦 Requirements
+## Requirements
 
 See [`requirements.txt`](requirements.txt) for all dependencies.
 
 ---
 
-## 📄 License
+## License
 
 This project is licensed under the [MIT License](LICENSE).
 
 ---
-

@@ -74,8 +74,6 @@ traffic-dashboard/
     └── xgb_classifier.pkl       # Trained ML model (XGBoost)
 ```
 
-```
-
 ---
 
 ## Deployment (Streamlit Cloud)
